@@ -10,7 +10,9 @@
 """
 from typing import List
 
+import matplotlib.pyplot as plt
 import numpy as np
+import cv2
 LOAD_GRAY_SCALE = 1
 LOAD_RGB = 2
 
@@ -20,7 +22,7 @@ def myID() -> np.int:
     Return my ID (not the friend's ID I copied from)
     :return: int
     """
-    return 123456789
+    return 207765652
 
 
 def imReadAndConvert(filename: str, representation: int) -> np.ndarray:
@@ -30,7 +32,18 @@ def imReadAndConvert(filename: str, representation: int) -> np.ndarray:
     :param representation: GRAY_SCALE or RGB
     :return: The image object
     """
-    pass
+    img = cv2.imread(filename,)
+
+    if representation == 1:
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        norm_img = img_gray / 255
+        print(norm_img.dtype)
+        return norm_img
+    else:
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        norm_img = img_rgb / 255
+        print(norm_img.dtype)
+        return norm_img
 
 
 def imDisplay(filename: str, representation: int):
@@ -40,8 +53,11 @@ def imDisplay(filename: str, representation: int):
     :param representation: GRAY_SCALE or RGB
     :return: None
     """
-    pass
-
+    img = imReadAndConvert(filename, representation)
+    if representation == 1:
+        plt.gray()
+    plt.imshow(img)
+    plt.show()
 
 def transformRGB2YIQ(imgRGB: np.ndarray) -> np.ndarray:
     """
