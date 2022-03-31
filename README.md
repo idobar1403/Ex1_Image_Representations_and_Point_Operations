@@ -1,6 +1,6 @@
 # Ex1_Image_Representations_and_Point_Operations
 
-<li> The functions:</li>
+## The functions:
 
 1. imReadAndConvert - Reading the image from given path and certain representation.
 2. imDisplay - Simple display of the image.
