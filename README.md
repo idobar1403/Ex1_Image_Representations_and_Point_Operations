@@ -1,6 +1,7 @@
 # Ex1_Image_Representations_and_Point_Operations
-
-## The functions:
+## ex1_utils.py
+---
+### The functions:
 
 1. imReadAndConvert - Reading the image from given path and certain representation.
 2. imDisplay - Simple display of the image.
@@ -8,7 +9,12 @@
 4. transformYIQ2RGB - Transform image that present in YIQ to be presented in RGB.
 5. hsitogramEqualize - Compare the original histogram with the difference to the wanted histogram.
 6. quantizeImage - Minimize the color of the pictures at the highest accuracy possible in small amount of iterations.
-7. gammaDisplay - Display image and change it according to the gamma at the trackBar
+
+## gamma.py
+----
+### The functions:
+1. gammaDisplay - Display image and change it according to the gamma at the trackBar.
+2. on_track - Print the gamma that is now active.
 <br>
 
 **Worked on python 3.9 in pycharm.**
