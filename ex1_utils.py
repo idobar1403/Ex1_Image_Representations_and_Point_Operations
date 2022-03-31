@@ -157,8 +157,20 @@ def quantize_one_dim(imgOrig: np.ndarray, nQuant: int, nIter: int) -> (List[np.n
     img_hist = np.histogram((imgOrig.ravel() * 255), bins=256)[0]
     boarder_z = []  # the boarders
     # select the boundaries for the start of the iterations
-    for i in range(nQuant + 1):
-        boarder_z.append(int((255 / nQuant) * i))
+    cum_sum = np.cumsum(img_hist)
+    boarder_z = [0]  # adding 0 as first boarder
+    num_of_pixels = img_hist.sum() / nQuant  # calculate number of pixels that should be between two boarders
+    curr_sum = 0
+    # select the best boundaries for the start of the iterations
+    for i in range(0, 256):
+        # check if passed the amount of pixels for the current boundary
+        curr_sum += img_hist[i]
+        if curr_sum >= num_of_pixels:
+            boarder_z.append(i + 1)
+            curr_sum = 0
+    # add 256 as the last boundary
+    if 255 not in boarder_z:
+        boarder_z.append(255)
     for i in range(nIter):
         averages = []
         imgs = np.zeros_like(imgOrig)
@@ -172,7 +184,7 @@ def quantize_one_dim(imgOrig: np.ndarray, nQuant: int, nIter: int) -> (List[np.n
         # set every pixel inside boundaries as the average
         for a_v_g in range(len(averages)):
             imgs[imgOrig > boarder_z[a_v_g] / 255] = averages[a_v_g]
-        # set new and better boundaries according to the averages in every boundry
+        # set new and better boundaries according to the averages in every boundary
         for boarder in range(1, len(boarder_z) - 1):
             boarder_z[boarder] = int((averages[boarder - 1] + averages[boarder]) / 2)
         # calculate the mse between the old and the new img
